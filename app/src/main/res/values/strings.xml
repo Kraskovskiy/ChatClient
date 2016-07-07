@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Chat Client</string>
+    <string name="deleteAllText">Clear History</string>
+    <string name="textMessage">"I am Text message Random Number "</string>
+    <string name="senderName">"Participant №"</string>
+    <string name="senderDefaultName">Participant with #</string>
+    <string name="senderDefaultMessage">#IloveHashTAG</string>
+    <string name="toastSendMessage">Message sended</string>
+    <string name="userLogin">User</string>
+    <string name="textClearAll">Clear ALL</string>
+</resources>
