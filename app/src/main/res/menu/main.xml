@@ -6,6 +6,6 @@
         android:id="@+id/actionBarItem1"
         android:icon="@android:drawable/ic_delete"
         app:showAsAction="always|withText"
-        android:title="@string/deleteAllText">
+        android:title="@string/action_delete_all_text">
     </item>
 </menu>

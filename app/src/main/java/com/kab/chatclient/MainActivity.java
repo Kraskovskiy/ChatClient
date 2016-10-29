@@ -17,14 +17,15 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private AsyncFakeServer mAsyncFakeServer;
     private CursorObserver mObserver;
     private EditText mETSendMessageField;
     private ListView mListViewChat;
-    private DB mDB;
-    private CustomCursorListAdapter mCustomCursorListAdapter;
+    private ChatClientDataBase mDb;
+    private ChatCursorListAdapter mChatCursorListAdapter;
 
 
     @Override
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mETSendMessageField = (EditText) findViewById(R.id.etMessage);
+        mETSendMessageField = (EditText) findViewById(R.id.edit_text_message);
         mETSendMessageField.setFocusableInTouchMode(true);
         mETSendMessageField.requestFocus();
         mETSendMessageField.setOnKeyListener(new View.OnKeyListener() {
@@ -56,18 +57,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         txtToChat();
-        dbConnection();
+        openDbConnection();
         createListViewAsync();
     }
 
     private void sendMessageTo(View v) {
-        DB db = new DB(getApplicationContext());
+        ChatClientDataBase db = new ChatClientDataBase(getApplicationContext());
             db.open();
-                Message m = new Message(getString(R.string.userLogin), mETSendMessageField.getText().toString(), Utils.getCurrentDate());
+                Message m = new Message(getString(R.string.title_user_login), mETSendMessageField.getText().toString(), Utility.getCurrentDate());
                 db.append(m.getSenderMessage(), m.getTextMessage(), m.getDateMessage());
             db.close();
 
-        Toast.makeText(MainActivity.this, R.string.toastSendMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, R.string.msg_toast_send_message, Toast.LENGTH_SHORT).show();
         mETSendMessageField.setText("");
         hideKeyboard(v);
     }
@@ -77,26 +78,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void ClearAllHistory() {
-        mDB.dbTrunc();
+    public void clearAllHistory() {
+        mDb.dbTrunc();
         getLoaderManager().getLoader(0).forceLoad();
     }
 
-    public void dbConnection() {
-        mDB = new DB(this);
-        mDB.open();
+    public void openDbConnection() {
+        mDb = new ChatClientDataBase(this);
+        mDb.open();
         getLoaderManager().initLoader(0, null, this);
     }
 
 
     public void createListViewAsync()  {
-        String[] from = new String[]{DBHelper.COLUMN_SENDER, DBHelper.COLUMN_MESSAGE, DBHelper.COLUMN_DATE};
-        int[] to = new int[]{R.id.senderItem, R.id.textItem, R.id.dateItem};
+        String[] from = new String[]{ChatDbEntry.COLUMN_SENDER, ChatDbEntry.COLUMN_MESSAGE, ChatDbEntry.COLUMN_DATE};
+        int[] to = new int[]{R.id.text_sender_item, R.id.text_item, R.id.text_date_item};
 
-        mCustomCursorListAdapter = new CustomCursorListAdapter(this, R.layout.my_list, null, from, to, 0);
-        mListViewChat = (ListView) findViewById(R.id.txtChatList);
+        mChatCursorListAdapter = new ChatCursorListAdapter(this, R.layout.my_list, null, from, to, 0);
+        mListViewChat = (ListView) findViewById(R.id.list_view_chat);
         assert mListViewChat != null;
-        mListViewChat.setAdapter(mCustomCursorListAdapter);
+        mListViewChat.setAdapter(mChatCursorListAdapter);
         mListViewChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
 
         mListViewChat.postDelayed(new Runnable() {
@@ -121,24 +122,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.actionBarItem1:
-                ClearAllHistory();
-                Toast.makeText(this, R.string.textClearAll, Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
-
     protected void onDestroy() {
         super.onDestroy();
         if (mObserver != null) {
@@ -149,20 +132,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
-        return new MyCursorLoader(this, mDB);
+        return new MyCursorLoader(this, mDb);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mCustomCursorListAdapter.swapCursor(cursor);
+        mChatCursorListAdapter.swapCursor(cursor);
         mObserver = new CursorObserver(new Handler(), loader);
         cursor.registerContentObserver(mObserver);
-        cursor.setNotificationUri(getContentResolver(), DBHelper.URI_TABLE_NAME);
+        cursor.setNotificationUri(getContentResolver(), DbHelper.URI_TABLE_NAME);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCustomCursorListAdapter.swapCursor(null);
+        mChatCursorListAdapter.swapCursor(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionBarItem1:
+                clearAllHistory();
+                Toast.makeText(this, R.string.action_text_clear_all, Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
 }

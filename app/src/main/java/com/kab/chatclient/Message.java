@@ -13,9 +13,9 @@ public class Message {
     private Random rnd = new Random();
 
     public Message(Context context) {
-        senderMessage = context.getResources().getString(R.string.senderName) + rnd.nextInt(100);
-        textMessage = context.getResources().getString(R.string.textMessage) + rnd.nextInt(100);
-        dateMessage = Utils.getCurrentDate();
+        senderMessage = context.getResources().getString(R.string.title_sender_name) + rnd.nextInt(100);
+        textMessage = context.getResources().getString(R.string.msg_text_message) + rnd.nextInt(100);
+        dateMessage = Utility.getCurrentDate();
     }
 
     public Message( String senderMessage, String textMessage, String dateMessage) {

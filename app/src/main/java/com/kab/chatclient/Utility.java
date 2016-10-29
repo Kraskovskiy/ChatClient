@@ -6,8 +6,8 @@ import java.util.Calendar;
 /**
  * Created by Kraskovskiy on 06.07.16.
  */
-public class Utils {
-    private Utils() {}
+public class Utility {
+    private Utility() {}
 
     public static  String getCurrentDate(){
         Calendar c = Calendar.getInstance();

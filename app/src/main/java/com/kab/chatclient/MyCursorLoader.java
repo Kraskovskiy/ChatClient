@@ -8,9 +8,9 @@ import android.database.Cursor;
  * Created by Kraskovskiy on 07.07.2016.
  */
 public class MyCursorLoader extends CursorLoader {
-    private DB mDB;
+    private ChatClientDataBase mDB;
 
-    public MyCursorLoader(Context context, DB db) {
+    public MyCursorLoader(Context context, ChatClientDataBase db) {
         super(context);
         this.mDB = db;
     }

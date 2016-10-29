@@ -16,7 +16,7 @@ public class AsyncFakeServer extends AsyncTask<Void, Void, Void> {
     }
 
     private void createTxtMessage() {
-        DB db = new DB(mContext);
+        ChatClientDataBase db = new ChatClientDataBase(mContext);
         Random rnd = new Random();
         while (true) {
             try {
@@ -38,7 +38,7 @@ public class AsyncFakeServer extends AsyncTask<Void, Void, Void> {
         if (rnd.nextInt(100)>45) {
           return  new Message(mContext);
         } else {
-            return  new Message(mContext.getString(R.string.senderDefaultName),mContext.getString(R.string.senderDefaultMessage), Utils.getCurrentDate());
+            return  new Message(mContext.getString(R.string.title_sender_default_name),mContext.getString(R.string.msg_sender_default_message), Utility.getCurrentDate());
         }
     }
 

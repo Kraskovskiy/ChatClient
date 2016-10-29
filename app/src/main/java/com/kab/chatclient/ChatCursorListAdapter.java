@@ -8,17 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-
+import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
 /**
  * Created by Kraskovskiy on 07.07.16.
  */
-public class CustomCursorListAdapter extends SimpleCursorAdapter {
+public class ChatCursorListAdapter extends SimpleCursorAdapter {
         private Context mContext;
         private int mLayout;
         private Cursor mCursor;
         private final LayoutInflater mInflater;
 
-        public CustomCursorListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+        public ChatCursorListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
             super(context, layout, c, from, to, flags);
             mLayout =layout;
             mContext = context;
@@ -35,12 +35,12 @@ public class CustomCursorListAdapter extends SimpleCursorAdapter {
         public void bindView(View view, Context context, Cursor cursor) {
             super.bindView(view, context, cursor);
 
-            TextView txtSender = (TextView) view.findViewById(R.id.senderItem);
-            TextView txtMessage = (TextView) view.findViewById(R.id.textItem);
-            TextView txtDate = (TextView) view.findViewById(R.id.dateItem);
+            TextView txtSender = (TextView) view.findViewById(R.id.text_sender_item);
+            TextView txtMessage = (TextView) view.findViewById(R.id.text_item);
+            TextView txtDate = (TextView) view.findViewById(R.id.text_date_item);
 
-            int message_index=cursor.getColumnIndexOrThrow(DBHelper.COLUMN_MESSAGE);
-            int sender_index=cursor.getColumnIndexOrThrow(DBHelper.COLUMN_SENDER);
+            int message_index=cursor.getColumnIndexOrThrow(ChatDbEntry.COLUMN_MESSAGE);
+            int sender_index=cursor.getColumnIndexOrThrow(ChatDbEntry.COLUMN_SENDER);
 
             if (cursor.getString(message_index).startsWith("#")) {
                 txtMessage.setTextColor(Color.RED);
@@ -48,7 +48,7 @@ public class CustomCursorListAdapter extends SimpleCursorAdapter {
                 txtMessage.setTextColor(Color.GREEN);
             }
 
-            if (cursor.getString(sender_index).equals(mContext.getResources().getString(R.string.userLogin))) {
+            if (cursor.getString(sender_index).equals(mContext.getResources().getString(R.string.title_user_login))) {
                 txtSender.setTextColor(Color.BLUE);
             } else {
                 txtSender.setTextColor(Color.GREEN);

@@ -8,11 +8,11 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtChatList"
+        android:id="@+id/list_view_chat"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/etMessage"
+        android:layout_above="@+id/edit_text_message"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin" />
@@ -20,7 +20,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etMessage"
+        android:id="@+id/edit_text_message"
         android:imeOptions="actionDone|flagNoExtractUi"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
