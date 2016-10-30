@@ -1,27 +1,27 @@
-package com.kab.chatclient;
+package com.kab.chatclient.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
+import com.kab.chatclient.data.MyDataBaseContract.ChatDbEntry;
 
 /**
  * Created by Kraskovskiy on 06.07.16.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int NUMBER_OF_VERSION_DB = 1;
-
     public static final Uri URI_TABLE_NAME = Uri.parse("sqlite://com.kab.chatclient/table/" + ChatDbEntry.TABLE_NAME);
 
-    public static final String DB_CREATE_STRING = "create table "+ ChatDbEntry.TABLE_NAME+ " ("
+    static final String DB_CREATE_STRING = "create table "+ ChatDbEntry.TABLE_NAME+ " ("
             + ChatDbEntry.COLUMN_ID+" integer primary key autoincrement,"
             + ChatDbEntry.COLUMN_SENDER+" text,"
             + ChatDbEntry.COLUMN_MESSAGE+" text,"
             + ChatDbEntry.COLUMN_DATE+" text"
             +");";
 
-    public DbHelper(Context context) {
+    private static final int NUMBER_OF_VERSION_DB = 1;
+
+    DbHelper(Context context) {
         super(context, ChatDbEntry.DATABASE_NAME, null, NUMBER_OF_VERSION_DB);
     }
 

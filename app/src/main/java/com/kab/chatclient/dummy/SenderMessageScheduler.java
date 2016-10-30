@@ -1,13 +1,13 @@
-package com.kab.chatclient;
-
-/**
- * Created by Kraskovskiy on 29.10.2016.
- */
+package com.kab.chatclient.dummy;
 
 import android.content.Context;
+
+import com.kab.chatclient.Utility;
+
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
@@ -31,16 +31,9 @@ public class SenderMessageScheduler {
                                     if (!sIsCanceled) {
                                         sendMessageSchedule(context);
                                     }
-
                                 }
                             }
-
                 , sUpdateTime, SECONDS);
-    }
-
-    public void changeUpdateTime(int timeSeed) {
-        Random rnd = new Random();
-        sUpdateTime = rnd.nextInt(timeSeed)+1;
     }
 
     public void startScheduler() {
@@ -50,5 +43,10 @@ public class SenderMessageScheduler {
     public void stopScheduler() {
         sIsCanceled = true;
         mScheduler.shutdownNow();
+    }
+
+    private void changeUpdateTime(int timeSeed) {
+        Random rnd = new Random();
+        sUpdateTime = rnd.nextInt(timeSeed) + 1;
     }
 }

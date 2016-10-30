@@ -1,4 +1,4 @@
-package com.kab.chatclient;
+package com.kab.chatclient.data;
 
 import android.provider.BaseColumns;
 
@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public class MyDataBaseContract {
     private MyDataBaseContract() {}
 
-    static abstract class ChatDbEntry implements BaseColumns {
+    public static abstract class ChatDbEntry implements BaseColumns {
         public static final String DATABASE_NAME = "chatClientDB";
         public static final String TABLE_NAME = "dataTable";
         public static final String COLUMN_ID = "_id";

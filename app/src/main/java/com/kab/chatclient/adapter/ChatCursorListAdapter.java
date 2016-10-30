@@ -1,4 +1,5 @@
-package com.kab.chatclient;
+package com.kab.chatclient.adapter;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,18 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
+
+import com.kab.chatclient.R;
+import com.kab.chatclient.data.MyDataBaseContract.ChatDbEntry;
+
 /**
  * Created by Kraskovskiy on 07.07.16.
  */
-public class ChatCursorListAdapterNew extends SimpleCursorAdapter {
+public class ChatCursorListAdapter extends SimpleCursorAdapter {
     private Context mContext;
-    private final LayoutInflater mInflater;
+    private LayoutInflater mInflater;
 
-    public ChatCursorListAdapterNew(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+    public ChatCursorListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         mContext = context;
-        mInflater =LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(context);
     }
 
     private int getItemViewType(Cursor cursor) {
@@ -35,27 +39,17 @@ public class ChatCursorListAdapterNew extends SimpleCursorAdapter {
         }
     }
 
-    public ForegroundColorSpan getSpanColor(String string) {
-        if (string.contains("#")) {
-            return new ForegroundColorSpan(Color.RED);
-        } else {
-            return new ForegroundColorSpan(Color.BLUE);
-        }
-    }
-
-    public Spannable getSpanText(String string) {
+    private Spannable getSpanText(String string) {
         Spannable spannable = new SpannableString(string);
-
         if (!string.contains("#")) {
             spannable.setSpan(new ForegroundColorSpan(Color.GREEN), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             spannable = findAndColorHashTag(string);
         }
-
         return spannable;
     }
 
-    public Spannable findAndColorHashTag(String string) {
+    private Spannable findAndColorHashTag(String string) {
         String[] stringArray = string.split(" ");
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -75,7 +69,6 @@ public class ChatCursorListAdapterNew extends SimpleCursorAdapter {
                 sb.append(spannable);
             }
         }
-
         return sb;
     }
 
@@ -108,7 +101,7 @@ public class ChatCursorListAdapterNew extends SimpleCursorAdapter {
         ViewHolder holder = new ViewHolder();
         View v = null;
 
-        if (getItemViewType(cursor)==0) {
+        if (getItemViewType(cursor) == 0) {
             v = mInflater.inflate(R.layout.my_list, parent, false);
             holder.txtSender = (TextView) v.findViewById(R.id.text_sender_item);
             holder.txtMessage = (TextView) v.findViewById(R.id.text_item);
@@ -129,6 +122,5 @@ public class ChatCursorListAdapterNew extends SimpleCursorAdapter {
         private TextView txtMessage;
         private TextView txtDate;
     }
-
 }
 

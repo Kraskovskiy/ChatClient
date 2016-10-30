@@ -1,8 +1,10 @@
-package com.kab.chatclient;
+package com.kab.chatclient.sync;
 
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
+
+import com.kab.chatclient.data.ChatClientDataBase;
 
 /**
  * Created by Kraskovskiy on 07.07.2016.

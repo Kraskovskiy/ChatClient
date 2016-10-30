@@ -17,14 +17,22 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
+
+import com.kab.chatclient.data.ChatClientDataBase;
+import com.kab.chatclient.adapter.ChatCursorListAdapter;
+import com.kab.chatclient.data.DbHelper;
+import com.kab.chatclient.data.Message;
+import com.kab.chatclient.data.MyDataBaseContract.ChatDbEntry;
+import com.kab.chatclient.sync.CursorObserver;
+import com.kab.chatclient.sync.MyCursorLoader;
+import com.kab.chatclient.dummy.SenderMessageScheduler;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private CursorObserver mObserver;
     private EditText mETSendMessageField;
     private ListView mListViewChat;
     private ChatClientDataBase mDb;
-    private ChatCursorListAdapterNew mChatCursorListAdapter;
+    private ChatCursorListAdapter mChatCursorListAdapter;
     private SenderMessageScheduler mSchedule = new SenderMessageScheduler();
 
     @Override
@@ -47,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,38 +69,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void sendMessageTo(View v) {
         ChatClientDataBase db = new ChatClientDataBase(getApplicationContext());
-            db.open();
-                Message m = new Message(getString(R.string.title_user_login), mETSendMessageField.getText().toString(), Utility.getCurrentDate());
-                db.append(m.getSenderMessage(), m.getTextMessage(), m.getDateMessage());
-            db.close();
+
+        db.open();
+        Message m = new Message(getString(R.string.title_user_login), mETSendMessageField.getText().toString(), Utility.getCurrentDate());
+        db.append(m.getSenderMessage(), m.getTextMessage(), m.getDateMessage());
+        db.close();
 
         Toast.makeText(MainActivity.this, R.string.msg_toast_send_message, Toast.LENGTH_SHORT).show();
         mETSendMessageField.setText("");
         hideKeyboard(v);
     }
 
-    public void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void clearAllHistory() {
+    private void clearAllHistory() {
         mDb.dbTrunc();
         getLoaderManager().getLoader(0).forceLoad();
     }
 
-    public void openDbConnection() {
+    private void openDbConnection() {
         mDb = new ChatClientDataBase(this);
         mDb.open();
         getLoaderManager().initLoader(0, null, this);
     }
 
 
-    public void createListViewChat()  {
+    private void createListViewChat() {
         String[] from = new String[]{ChatDbEntry.COLUMN_SENDER, ChatDbEntry.COLUMN_MESSAGE, ChatDbEntry.COLUMN_DATE};
         int[] to = new int[]{R.id.text_sender_item, R.id.text_item, R.id.text_date_item};
 
-        mChatCursorListAdapter = new ChatCursorListAdapterNew(this, R.layout.my_list, null, from, to, 0);
+        mChatCursorListAdapter = new ChatCursorListAdapter(this, R.layout.my_list, null, from, to, 0);
         mListViewChat = (ListView) findViewById(R.id.list_view_chat);
 
         mListViewChat.setAdapter(mChatCursorListAdapter);
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-    public void startSenderMessageScheduler(){
+    private void startSenderMessageScheduler() {
         mSchedule.startScheduler();
         mSchedule.sendMessageSchedule(this);
     }
@@ -131,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
         return new MyCursorLoader(this, mDb);
     }
 
@@ -166,5 +174,4 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return true;
     }
-
 }

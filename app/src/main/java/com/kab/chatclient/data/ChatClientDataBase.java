@@ -1,10 +1,12 @@
-package com.kab.chatclient;
+package com.kab.chatclient.data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
+
+import com.kab.chatclient.data.MyDataBaseContract.ChatDbEntry;
+
 /**
  * Created by Kraskovskiy on 06.07.2016.
  */
@@ -23,7 +25,7 @@ public class ChatClientDataBase {
     }
 
     public void close() {
-        if (mDbHelper !=null) mDbHelper.close();
+        if (mDbHelper != null) mDbHelper.close();
     }
 
     public Cursor getAllData() {
@@ -39,21 +41,9 @@ public class ChatClientDataBase {
         mContext.getContentResolver().notifyChange(DbHelper.URI_TABLE_NAME, null);
     }
 
-    public void delete(long id) {
-        mDb.delete(ChatDbEntry.TABLE_NAME, ChatDbEntry.COLUMN_ID + " = " + id, null);
-        mContext.getContentResolver().notifyChange(DbHelper.URI_TABLE_NAME, null);
-    }
-
-    public void dbTrunc()
-    {
+    public void dbTrunc() {
         mDb.execSQL("DROP TABLE " + ChatDbEntry.TABLE_NAME);
         mDb.execSQL(DbHelper.DB_CREATE_STRING);
-        mContext.getContentResolver().notifyChange(DbHelper.URI_TABLE_NAME, null);
-    }
-
-    public void clearAll()
-    {
-        mDb.delete(ChatDbEntry.TABLE_NAME, null, null);
         mContext.getContentResolver().notifyChange(DbHelper.URI_TABLE_NAME, null);
     }
 }

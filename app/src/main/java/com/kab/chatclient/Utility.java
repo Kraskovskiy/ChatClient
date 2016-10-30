@@ -2,6 +2,9 @@ package com.kab.chatclient;
 
 import android.content.Context;
 
+import com.kab.chatclient.data.ChatClientDataBase;
+import com.kab.chatclient.data.Message;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -34,5 +37,4 @@ public class Utility {
         db.append(message.getSenderMessage(), message.getTextMessage(), message.getDateMessage());
         db.close();
     }
-
 }

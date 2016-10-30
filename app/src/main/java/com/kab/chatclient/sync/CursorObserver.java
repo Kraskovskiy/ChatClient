@@ -1,4 +1,4 @@
-package com.kab.chatclient;
+package com.kab.chatclient.sync;
 
 import android.content.Loader;
 import android.database.ContentObserver;
