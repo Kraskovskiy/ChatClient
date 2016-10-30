@@ -9,7 +9,7 @@ import android.os.Handler;
  * Created by Kraskovskiy on 07.07.16.
  */
 public class CursorObserver extends ContentObserver {
-    private Loader<Cursor> mLoader;
+    private final Loader<Cursor> mLoader;
 
     public CursorObserver(Handler handler, Loader<Cursor> loader) {
         super(handler);

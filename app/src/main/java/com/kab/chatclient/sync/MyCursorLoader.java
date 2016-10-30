@@ -10,11 +10,11 @@ import com.kab.chatclient.data.ChatClientDataBase;
  * Created by Kraskovskiy on 07.07.2016.
  */
 public class MyCursorLoader extends CursorLoader {
-    private ChatClientDataBase mDB;
+    private final ChatClientDataBase mDB;
 
     public MyCursorLoader(Context context, ChatClientDataBase db) {
         super(context);
-        this.mDB = db;
+        mDB = db;
     }
 
     @Override

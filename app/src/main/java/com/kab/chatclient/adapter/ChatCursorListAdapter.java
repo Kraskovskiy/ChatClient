@@ -21,8 +21,8 @@ import com.kab.chatclient.data.MyDataBaseContract.ChatDbEntry;
  * Created by Kraskovskiy on 07.07.16.
  */
 public class ChatCursorListAdapter extends SimpleCursorAdapter {
-    private Context mContext;
-    private LayoutInflater mInflater;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
 
     public ChatCursorListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
@@ -99,7 +99,7 @@ public class ChatCursorListAdapter extends SimpleCursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
-        View v = null;
+        View v;
 
         if (getItemViewType(cursor) == 0) {
             v = mInflater.inflate(R.layout.my_list, parent, false);
