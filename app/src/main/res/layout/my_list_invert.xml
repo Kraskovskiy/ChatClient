@@ -4,6 +4,42 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/text_date_item"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/color_blue" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:id="@+id/text_sender_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color_green"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/text_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:padding="2dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="right" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/image_icon"
         android:layout_width="60dp"
@@ -13,39 +49,5 @@
         android:layout_marginTop="5dp"
         android:scaleType="fitCenter"
         android:src="@android:drawable/sym_def_app_icon" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:layout_marginLeft="15dp">
-
-        <TextView
-            android:id="@+id/text_sender_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/color_green" />
-
-        <TextView
-            android:id="@+id/text_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:padding="2dp"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/text_date_item"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/color_blue" />
 
 </LinearLayout>

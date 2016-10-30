@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private EditText mETSendMessageField;
     private ListView mListViewChat;
     private ChatClientDataBase mDb;
-    private ChatCursorListAdapter mChatCursorListAdapter;
+    private ChatCursorListAdapterNew mChatCursorListAdapter;
     private SenderMessageScheduler mSchedule = new SenderMessageScheduler();
 
     @Override
@@ -93,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String[] from = new String[]{ChatDbEntry.COLUMN_SENDER, ChatDbEntry.COLUMN_MESSAGE, ChatDbEntry.COLUMN_DATE};
         int[] to = new int[]{R.id.text_sender_item, R.id.text_item, R.id.text_date_item};
 
-        mChatCursorListAdapter = new ChatCursorListAdapter(this, R.layout.my_list, null, from, to, 0);
+        mChatCursorListAdapter = new ChatCursorListAdapterNew(this, R.layout.my_list, null, from, to, 0);
         mListViewChat = (ListView) findViewById(R.id.list_view_chat);
-        assert mListViewChat != null;
+
         mListViewChat.setAdapter(mChatCursorListAdapter);
         mListViewChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
 
