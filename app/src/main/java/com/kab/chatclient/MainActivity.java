@@ -20,13 +20,12 @@ import android.widget.Toast;
 import com.kab.chatclient.MyDataBaseContract.ChatDbEntry;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private AsyncFakeServer mAsyncFakeServer;
     private CursorObserver mObserver;
     private EditText mETSendMessageField;
     private ListView mListViewChat;
     private ChatClientDataBase mDb;
     private ChatCursorListAdapter mChatCursorListAdapter;
-
+    private SenderMessageScheduler mSchedule = new SenderMessageScheduler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        txtToChat();
+        startSenderMessageScheduler();
         openDbConnection();
-        createListViewAsync();
+        createListViewChat();
     }
 
     private void sendMessageTo(View v) {
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    public void createListViewAsync()  {
+    public void createListViewChat()  {
         String[] from = new String[]{ChatDbEntry.COLUMN_SENDER, ChatDbEntry.COLUMN_MESSAGE, ChatDbEntry.COLUMN_DATE};
         int[] to = new int[]{R.id.text_sender_item, R.id.text_item, R.id.text_date_item};
 
@@ -116,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
-    public void txtToChat() {
-        mAsyncFakeServer = new AsyncFakeServer(getApplicationContext());
-        mAsyncFakeServer.execute();
+    public void startSenderMessageScheduler(){
+        mSchedule.startScheduler();
+        mSchedule.sendMessageSchedule(this);
     }
 
     @Override
@@ -128,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             getContentResolver().unregisterContentObserver(mObserver);
             mObserver = null;
         }
+        mSchedule.stopScheduler();
     }
 
     @Override

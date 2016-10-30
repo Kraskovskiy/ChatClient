@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Chat Client</string>
-    <string name="action_delete_all_text">Clear History</string>
-    <string name="action_text_clear_all">Clear ALL</string>
+    <string name="action_delete_all_text">Clear the history</string>
+    <string name="action_text_clear_all">All clear</string>
     <string name="msg_text_message">"I am Text message Random Number "</string>
     <string name="msg_sender_default_message">#IloveHashTAG</string>
     <string name="msg_toast_send_message">Message sent</string>

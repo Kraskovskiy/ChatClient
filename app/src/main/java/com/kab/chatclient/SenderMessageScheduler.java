@@ -5,7 +5,7 @@ package com.kab.chatclient;
  */
 
 import android.content.Context;
-import android.util.Log;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -15,32 +15,40 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  */
 
 public class SenderMessageScheduler {
-    private static final int UPDATE_TIME_SEC = 60;
+    private static final int UPDATE_TIME_SEED = 6;
+    private static int sUpdateTime = 6;
     private static Boolean sIsCanceled = false;
-    private static Boolean sIsRunning = false;
     private ScheduledExecutorService mScheduler = Executors.newScheduledThreadPool(1);
 
-    public void readRssFeedScheduler(final Context context) {
-        if (!sIsRunning) {
-            sIsRunning = true;
-            mScheduler.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    if (!sIsCanceled) {
+    public void sendMessageSchedule(final Context context) {
+        mScheduler.schedule(new Runnable() {
+                                @Override
+                                public void run() {
 
-                        Log.e("SenderMessageScheduler", "run: " + "readRssFeedScheduler");
-                    } else {
-                        mScheduler.shutdownNow();
-                        sIsCanceled = false;
-                        sIsRunning = false;
-                    }
-                }
-            }, 0, UPDATE_TIME_SEC, SECONDS);
-        }
+                                    Utility.saveMessageInDb(context, Utility.messageGenerator(context));
+                                    changeUpdateTime(UPDATE_TIME_SEED);
+
+                                    if (!sIsCanceled) {
+                                        sendMessageSchedule(context);
+                                    }
+
+                                }
+                            }
+
+                , sUpdateTime, SECONDS);
+    }
+
+    public void changeUpdateTime(int timeSeed) {
+        Random rnd = new Random();
+        sUpdateTime = rnd.nextInt(timeSeed)+1;
+    }
+
+    public void startScheduler() {
+        sIsCanceled = false;
     }
 
     public void stopScheduler() {
         sIsCanceled = true;
-        sIsRunning = false;
+        mScheduler.shutdownNow();
     }
 }
