@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     tools:context="com.kab.chatclient.MainActivity">
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view_chat"
+        android:layout_above="@+id/edit_text_message"
+        android:layout_alignRight="@+id/fab"
+        android:layout_alignEnd="@+id/fab" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,13 +35,5 @@
         android:src="@android:drawable/ic_dialog_email"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_view_chat"
-        android:layout_above="@+id/edit_text_message"
-        android:layout_alignRight="@+id/fab"
-        android:layout_alignEnd="@+id/fab" />
 
 </RelativeLayout>

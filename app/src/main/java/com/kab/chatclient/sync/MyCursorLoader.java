@@ -21,5 +21,4 @@ public class MyCursorLoader extends CursorLoader {
     public Cursor loadInBackground() {
         return mDB.getAllData();
     }
-
 }
